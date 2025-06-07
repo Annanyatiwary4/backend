@@ -1,27 +1,12 @@
-import { Router } from 'express';
-import { User, validate } from '../models/users.js';
-import bcrypt from 'bcrypt';
+import express from "express";
+import { forgotPassword, login, logout, register, verifyEmail } from "../controllers/authController.js";
 
-const router = Router();
+const router = express.Router();
 
-// Register Route
-router.post('/register', async (req, res) => {
-    try {
-        const { error } = validate(req.body);
-        if (error) return res.status(400).send({ message: error.details[0].message });
-
-        const users = await User.findOne({ email: req.body.email });
-        if (users) return res.status(400).send({ message: 'User already registered' });
-
-        const salt = await bcrypt.genSalt(Number(process.env.SALT));
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-        await new User({ ...req.body, password: hashedPassword }).save();
-        res.status(201).send({ message: 'User registered successfully' });
-
-    } catch (error) {
-        res.status(500).send({ message: 'Internal server error' });
-    }
-});
+router.post("/register", register);
+router.post("/login",login ); // Assuming login is handled by the same controller for simplicity
+router.post("/verify-email", verifyEmail);
+router.post("/logout",logout);
+router.post("/forgot-password",forgotPassword);
 
 export default router;

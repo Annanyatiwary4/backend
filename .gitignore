@@ -1,0 +1,27 @@
+# Node.js dependencies
+/node_modules/
+
+# Env variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Compiled output
+dist/
+build/
+
+# Others
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
