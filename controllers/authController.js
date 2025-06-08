@@ -172,3 +172,53 @@ export const forgotPassword = async (req, res) => {
     return res.status(500).json({ msg: "Internal server error" });
   }
 };
+
+
+//reset password
+export const ResetPassword = async (req, res) => {
+  
+
+  try {
+    const { token} = req.params; // Get token from URL parameters
+    const { newPassword } = req.body; // Get new password from request body
+    if (!token || !newPassword) {
+      return res.status(400).json({ msg: "Token and new password are required" });
+    }
+
+    const user = await User.findOne({
+      resetpasswordToken: token,
+      resetpasswordExpiresAt: { $gt: Date.now() }, // Check if token is still valid
+    });
+
+    if (!user) {
+      return res.status(400).json({ msg: "Invalid or expired reset token" });
+    }
+
+    // Hash the new password
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetpasswordToken = undefined; // Clear the reset token
+    user.resetpasswordExpiresAt = undefined; // Clear the expiration time
+    await user.save();
+
+    res.status(200).json({ success: true, msg: "Password reset successfully" });
+  } catch (error) {
+    console.error("❌ Error during password reset:", error);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
+
+//check auth
+export const checkAuth = async (req, res) => {
+	try {
+		const user = await User.findById(req.userId).select("-password");
+		if (!user) {
+			return res.status(400).json({ success: false, message: "User not found" });
+		}
+
+		res.status(200).json({ success: true, user });
+	} catch (error) {
+		console.log("Error in checkAuth ", error);
+		res.status(400).json({ success: false, message: error.message });
+	}
+};
