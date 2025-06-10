@@ -8,7 +8,10 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",  // your frontend URL
+  credentials: true                // allow cookies/headers to be sent
+}));
 app.use(express.json()); //allows us to parse incoming requests : req.body
 
 mongoose

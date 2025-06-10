@@ -166,7 +166,7 @@ export const forgotPassword = async (req, res) => {
   //send reset password email
 
   await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`, user.name);
-
+   return res.status(200).json({ msg: "Reset email sent successfully" });
   }catch (error) {
     console.error("❌ Error during forgot password:", error);
     return res.status(500).json({ msg: "Internal server error" });
