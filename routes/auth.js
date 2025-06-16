@@ -1,6 +1,8 @@
 import express from "express";
 import { checkAuth, forgotPassword, login, logout, register, ResetPassword, verifyEmail } from "../controllers/authController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
+import { createProject, getSingleProject, getUserProjects } from "../controllers/ProjectController.js";
+
 
 const router = express.Router();
 
@@ -12,5 +14,9 @@ router.post("/verify-email", verifyEmail);
 router.post("/logout",logout);
 router.post("/forgot-password",forgotPassword);
 router.post("/reset-password/:token",ResetPassword);
+router.post("/create-project", verifyToken,createProject);
+router.get("/my-projects",verifyToken,getUserProjects)
+router.get("/my-projects/:id", verifyToken, getSingleProject);
+
 
 export default router;

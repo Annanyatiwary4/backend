@@ -7,7 +7,7 @@ export const verifyToken = (req, res, next) => {
 	if (!token) return res.status(401).json({ success: false, message: "Unauthorized - no token provided" });
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+        
 		if (!decoded) return res.status(401).json({ success: false, message: "Unauthorized - invalid token" });
 
 		req.userId = decoded.userId;
@@ -17,3 +17,4 @@ export const verifyToken = (req, res, next) => {
 		return res.status(500).json({ success: false, message: "Server error" });
 	}
 };
+
