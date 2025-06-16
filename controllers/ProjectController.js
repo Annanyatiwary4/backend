@@ -60,3 +60,45 @@ export const getSingleProject = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to fetch project" });
   }
 };
+
+// @desc Delete a project by ID
+export const deleteProject = async (req, res) => {
+  try {
+    const project = await Project.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.userId,
+    });
+
+    if (!project) {
+      return res.status(404).json({ success: false, message: "Project not found or unauthorized" });
+    }
+
+    res.status(200).json({ success: true, message: "Project deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    res.status(500).json({ success: false, message: "Failed to delete project" });
+  }
+};
+
+// @desc Update a project (title, theme, thumbnail, config)
+export const updateProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedProject = await Project.findOneAndUpdate(
+      { _id: id, userId: req.userId },
+      { $set: req.body }, // Can include title, theme, thumbnail, config
+      { new: true }
+    );
+
+    if (!updatedProject) {
+      return res.status(404).json({ success: false, message: "Project not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Project updated", project: updatedProject });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ success: false, message: "Failed to update project" });
+  }
+};
+

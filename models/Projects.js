@@ -17,10 +17,13 @@ const projectSchema = new mongoose.Schema({
   thumbnail: {
     type: String, // URL or base64 string
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+ 
+  config: {
+    type: Object, // Store layout, selected components, colors, etc.
+    default: {},
   },
-});
+   // Automatically add createdAt and updatedAt fields
+
+}, { timestamps: true });
 
 export default mongoose.model("Project", projectSchema);
