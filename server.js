@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import resumeRoutes from "./routes/resume.js"; // Importing resume routes
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ mongoose
   
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
+app.use("/api/resume", resumeRoutes); // Importing resume routes
  //  Middleware to parse cookies
 
 const PORT = process.env.PORT || 5000;
