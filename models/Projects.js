@@ -23,6 +23,10 @@ const projectSchema = new mongoose.Schema({
     default: {},
   },
    // Automatically add createdAt and updatedAt fields
+  resumeData: {
+    type: Object,     // 👈 parsed JSON from Gemini goes here
+    default: {},
+  },
 
 }, { timestamps: true });
 
