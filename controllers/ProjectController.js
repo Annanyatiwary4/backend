@@ -4,12 +4,13 @@ import Project from "../models/Projects.js";
 // @desc Create a new project
 export const createProject = async (req, res) => {
   try {
-    const { title, theme, thumbnail} = req.body;
-   
+    const { title, templateId, thumbnail} = req.body;
+    
+    console.log("📦 Incoming Data:", { title, templateId, thumbnail });
     const newProject = await Project.create({
       userId:req.userId,
       title,
-      theme,
+      templateId,
       thumbnail,
     });
     

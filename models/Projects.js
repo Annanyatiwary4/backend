@@ -10,7 +10,7 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  theme: {
+  templateId: {
     type: String,
     required: true, // e.g., "theme-classic", "theme-modern"
   },
